@@ -1,0 +1,23 @@
+[
+    {
+        "title": "Harry Potter and the Sorcerer's Stone",
+        "author": "J.K. Rowling",
+        "year": 1997,
+        "genre": "Fantasy, ADventure",
+        "read_status": true
+    },
+    {
+        "title": "The Diary of a Young Girl",
+        "author": "Anne Frank",
+        "year": 1947,
+        "genre": " Memoir, History",
+        "read_status": false
+    },
+    {
+        "title": "Atomic Habits",
+        "author": "James Clear",
+        "year": 2018,
+        "genre": "Self-Help",
+        "read_status": true
+    }
+]
