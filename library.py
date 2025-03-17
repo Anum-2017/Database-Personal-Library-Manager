@@ -39,5 +39,6 @@ def display_library_table():
     finally:
         conn.close()
 
-if __name__ == "__main__":
-    display_library_table()
+    if __name__ == "__main__":
+      display_library_table()
+

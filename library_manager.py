@@ -119,20 +119,56 @@ elif menu == menu_options["Add a New book"]:
             st.warning("⚠️ Please fill in all fields to add the book.")
 
 # Remove Book
+
+# elif menu == menu_options["Remove a book"]:
+#     st.subheader("🗑️ Remove a Book")
+#     title_to_remove = st.text_input("**📚 Enter the title of the book to remove**")
+    
+#     if st.button("Remove Book 🗑️"):
+#         conn = sqlite3.connect('library.db')
+#         c = conn.cursor()
+#         c.execute("DELETE FROM books WHERE LOWER(title) = LOWER(?)", (title_to_remove,))
+#         conn.commit()
+#         if conn.total_changes > 0:
+#             st.success(f"📖 Book '{title_to_remove}' removed successfully!")
+#         else:
+#             st.warning(f"⚠️ Book with title '{title_to_remove}' not found.")
+#         conn.close()
+
 elif menu == menu_options["Remove a book"]:
     st.subheader("🗑️ Remove a Book")
-    title_to_remove = st.text_input("**📚 Enter the title of the book to remove**")
     
-    if st.button("Remove Book 🗑️"):
-        conn = sqlite3.connect('library.db')
-        c = conn.cursor()
-        c.execute("DELETE FROM books WHERE LOWER(title) = LOWER(?)", (title_to_remove,))
-        conn.commit()
-        if conn.total_changes > 0:
-            st.success(f"📖 Book '{title_to_remove}' removed successfully!")
-        else:
-            st.warning(f"⚠️ Book with title '{title_to_remove}' not found.")
-        conn.close()
+    # Connect to database
+    conn = sqlite3.connect('library.db')
+    c = conn.cursor()
+    
+    # Fetch book titles from the database
+    c.execute("SELECT title FROM books")
+    books = [row[0] for row in c.fetchall()]
+    
+    conn.close()
+
+    if books:
+        # Add a placeholder as the first option
+        books.insert(0, "Select the book to remove")
+        
+        # Dropdown to select book title
+        title_to_remove = st.selectbox("**📚 Select the book to remove**", books, index=0)
+
+        if title_to_remove != "Select the book to remove":
+            if st.button("Remove Book 🗑️"):
+                conn = sqlite3.connect('library.db')
+                c = conn.cursor()
+                c.execute("DELETE FROM books WHERE LOWER(title) = LOWER(?)", (title_to_remove,))
+                conn.commit()
+                if conn.total_changes > 0:
+                    st.success(f"📖 Book '{title_to_remove}' removed successfully!")
+                else:
+                    st.warning(f"⚠️ Book '{title_to_remove}' not found.")
+                conn.close()
+    else:
+        st.warning("⚠️ No books available to remove.")
+
 
 # Search Books
 elif menu == menu_options["Search for a book"]:
@@ -157,6 +193,7 @@ elif menu == menu_options["Search for a book"]:
                                         'year': 'Year', 'genre': 'Genre'}))
         else:
             st.warning("⚠️ No books found.")
+
 
 # Display All Books
 # In your "Display all books" section
